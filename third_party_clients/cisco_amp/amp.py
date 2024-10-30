@@ -195,7 +195,8 @@ class Client(ThirdPartyInterface):
             verify=False,
             auth=self.auth
             )
-        response.raise_for_status()        response = requests.delete(
+        response.raise_for_status()        
+        response = requests.delete(
             url=f'{URL}/v1/{api_endpoint}',
             verify=False,
             auth=self.auth
