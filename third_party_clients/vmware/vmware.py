@@ -48,7 +48,7 @@ class Client(ThirdPartyInterface):
 
     def block_host(self, host):
         # We use a mix of instance and BIOS UUID
-        uuid = host.vmware_vm_uuid[:36]
+        uuid = host.vmware_vm_uuid
         # As we don't know the VCSA the host is on, we need to loop
         vm_pointer = None
         for vcsa_host, si in self.vcsa_hosts_service_instances.items():
@@ -59,7 +59,7 @@ class Client(ThirdPartyInterface):
             vmList = objView.view
             objView.Destroy()
             for vm in vmList:
-                if vm.summary.config.instanceUuid == uuid:
+                if vm.summary.config.instanceUuid in uuid:
                     vm_pointer = vm
                     break  # Get out of the loop since we found the object
             if vm_pointer:
@@ -73,7 +73,7 @@ class Client(ThirdPartyInterface):
 
     def unblock_host(self, host):
         # We use a mix of instance and BIOS UUID. We can use the UUID we have on the host container, not the tag as this in constant.
-        uuid = host.vmware_vm_uuid[:36]
+        uuid = host.vmware_vm_uuid
         # As we don't know the VCSA the host is on, we need to loop
         vm_pointer = None
         for vcsa_host, si in self.vcsa_hosts_service_instances.items():
@@ -84,7 +84,7 @@ class Client(ThirdPartyInterface):
             vmList = objView.view
             objView.Destroy()
             for vm in vmList:
-                if vm.summary.config.instanceUuid == uuid:
+                if vm.summary.config.instanceUuid in uuid:
                     vm_pointer = vm
                     break  # Get out of the loop since we found the object
             if vm_pointer:
